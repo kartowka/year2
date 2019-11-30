@@ -20,6 +20,7 @@ def parseStr(str):
         newNum*=-1
     return newNum
 
+print("EX1 - Enter number as String.")
 num=input("enter number: ")
 print(parseStr(num))
 
@@ -33,6 +34,7 @@ def evenFactorial(n):
         return n*evenFactorial(n-1)
     return evenFactorial(n-1)
 
+print("EX7 - Enter number > 0.")
 n=int(input("enter number between 1-9: "))
 print(evenFactorial(n))
 
@@ -45,6 +47,7 @@ def printBin(number):
         return 0
     return number%2+10*(printBin(int(number/2)))
 
+print("EX6 - Enter number to convert to binary.")
 number=int(input("enter number to convert: "))
 print(printBin(number))
 
@@ -65,6 +68,7 @@ def interceptPoint(m1,n1,m2,n2):
     point=(m,y)
     return point
 
+print("EX3 - enter 4 points as follow n1 n2 n3 n4.")
 m1,n1,m2,n2=[int(x) for x in input("enter numbers for m1,n1,m2,n2: ").split()]
 print(interceptPoint(m1,n1,m2,n2))
 
@@ -86,12 +90,25 @@ def factorSum(n):
                 sum+=i
     return sum
 
+print("EX4 - enter number checks for primes.")
 number=int(input("enter number: "))
 print(factorSum(number))
 
-#EX2
+#EX2 - done
 
+def smallHash(s):
+    an=s[0]
+    aPrev=s[0]
+    if(len(s)==1):
+        return an
+    for i in range(1,len(s)):
+        an=((31*aPrev)^s[i])&0xFF
+        aPrev=an
+    return an
 
+print("EX2 - enter numbers [0,255] calc Hash.")
+a=[(int(x)%255) for x in input("enter elements of list: ").split()]
+print(smallHash(a))
 
 
 #EX5 - done
@@ -108,5 +125,6 @@ def checkBrackets(s,sum=0):
         return checkBrackets(s[1:],sum-1)
     return checkBrackets(s[1:],sum)
 
+print("EX5 - check for parentheses match.")
 brackets=input("enter string: ")
 print(checkBrackets(brackets))
