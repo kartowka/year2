@@ -1,24 +1,21 @@
 import os
 mydict={}
-unsupported_char=['-']
-for file in os.listdir(os.getcwd()+'/txts'):
+files_list=['cities.txt','colors.txt','fruit.txt','names.txt']
+for file in os.listdir(os.getcwd()):
     """take the names and input data to dictionary"""
-    if file.endswith(".txt"):
+    if file in files_list:
+        print(file)
         file_name_value=str(file[:-4])
-        f=open(os.getcwd()+'/txts/'+file,'r')
+        f=open(os.getcwd()+'/'+file,'r')
         list=[]
         for line in f:
-            if [ele for ele in unsupported_char if(ele in line)]:
+            list.extend(line.lower().split())
+        for _,key in enumerate(list):
+            if not key.isalpha():
                 pass
             else:
-                list.extend(line.lower().split())
-        for _,key in enumerate(list):
-            mydict.setdefault(key,[]).append(file_name_value)
+                mydict.setdefault(key,set()).add(file_name_value)
         f.close()
-for key,val in mydict.items():
-    convert_to_set=set()
-    convert_to_set=set(val)
-    mydict[key]=convert_to_set
 f=open(os.getcwd()+'/dictionary.txt','w')
-f.write(str(mydict))
+f.write(repr(mydict))
 f.close()
