@@ -18,5 +18,6 @@ for file in os.listdir(os.getcwd()):
                mydict.setdefault(key,set()).add(file_name_value)
         f.close()
 f=open(os.getcwd()+'/dictionary.txt','w')
+# mydict=repr(mydict)
 f.write(repr(mydict))
 f.close()

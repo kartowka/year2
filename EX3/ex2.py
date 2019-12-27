@@ -1,36 +1,34 @@
 import os
 import re
-from collections import Counter
-#txt open
-f_txt=open(os.getcwd()+'/'+'text.txt','r')
-to_list=[]
-for line in f_txt:
-    a=re.split('[.,!?' '\n1-9]',line.lower())
-    to_list.extend(a)
-s=set(to_list)
-s.remove('')
-f_txt.close()
 
+with open(os.getcwd()+'/'+'text.txt') as f:
+    text=f.read()
+f.close()
 
-# dictionary open
-f_dict=open(os.getcwd()+'/'+'dictionary.txt','r')
-mydict={}
-for line in f_dict:
-    mydict=eval(line)
-f_dict.close()
+text=re.split('[.,!?''\r\n1-9]',text.lower())
+text=filter(None,text)
+newlist=[]
+for i in text:
+    newlist.extend(i.split())
 
-def check_if_exist(tuple_list,first,second):
-    temp_list=second.split()
-    for _,key in enumerate(temp_list):
-        if key in first:
-            tuple_list.append((key,temp_list.count(key),first[key]))
-        else:
-            tuple_list.append((key,temp_list.count(key),{}))
+with open(os.getcwd()+'/'+'dictionary.txt') as f:
+    text=f.read()
+f.close()
+mydict=eval(text)
 
 f_words=open(os.getcwd()+'/'+'words.txt','w')
 tuple_list=[]
-for line in s:
-    check_if_exist(tuple_list,mydict,line)
-tuple_list.sort(reverse=True)
-f_words.write(repr(tuple_list))
+for key in newlist:
+    if key in mydict:
+        tuple_list.append((key,newlist.count(key),mydict[key]))
+    else:
+        tuple_list.append((key,newlist.count(key),{}))
+duplicates_remove=set()
+sorted_list=[]
+for t_first,t_second,t_third in tuple_list:
+    if not t_first in duplicates_remove:
+        duplicates_remove.add(t_first)
+        sorted_list.append((t_first,t_second,t_third))
+sorted_list.sort(reverse=True)
+f_words.write(repr(sorted_list))
 f_words.close()
