@@ -7,7 +7,7 @@ def newtow(f,Df,x0,epsilon,max_iter):
     if Df(x0)==0:
         return 'No Answer'
     x=f(x0)/Df(x0)
-    while abs(x)>=epsilon and min_iter<max_iter:
+    while abs(x)>epsilon and min_iter<max_iter:
         x=f(x0)/Df(x0)
         x0=x0-x
         min_iter=min_iter+1
