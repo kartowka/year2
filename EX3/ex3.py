@@ -9,7 +9,6 @@ f.close()
 mylist=eval(text)
 at_least_appears=5
 at_least_belongs=1
-print(type(mylist))
 p = inflect.engine()
 for item in mylist:
     if len(item[2])>at_least_belongs:
