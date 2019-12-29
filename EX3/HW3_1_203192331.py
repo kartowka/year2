@@ -9,8 +9,6 @@ for file in os.listdir(os.getcwd()):
         list_of_values=[]
         for line in f:
             list_of_values.extend(line.lower().split())
-        #list1=[]
-        #list1=list(filter(lambda name:name.isalpha(),list2))
         for _,key in enumerate(list_of_values):
             if not key.isalpha():
                pass
@@ -18,6 +16,5 @@ for file in os.listdir(os.getcwd()):
                mydict.setdefault(key,set()).add(file_name_value)
         f.close()
 f=open(os.getcwd()+'/dictionary.txt','w')
-# mydict=repr(mydict)
 f.write(repr(mydict))
 f.close()

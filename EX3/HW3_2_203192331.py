@@ -29,17 +29,6 @@ for t_first,t_second,t_third in tuple_list:
     if not t_first in duplicates_remove:
         duplicates_remove.add(t_first)
         sorted_list.append((t_first,t_second,t_third))
-sorted_list_by_second_elememt=[]
-help_list=[]
-for key in sorted_list:
-    if key[1]>1:
-        sorted_list_by_second_elememt.append(key)
-    else:
-        help_list.append(key)
-sorted_list_by_second_elememt.sort(key=lambda elem:elem[1],reverse=True)
-help_list.sort(reverse=True)
-sorted_list=[]
-sorted_list.extend(sorted_list_by_second_elememt)
-sorted_list.extend(help_list)
+sorted_list.sort(key=lambda elem:(elem[1],elem[0]),reverse=True)
 f_words.write(repr(sorted_list))
 f_words.close()
