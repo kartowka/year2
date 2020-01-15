@@ -86,7 +86,7 @@ def make_person_class():
     def str(self):
         print('Name: %s %s\nDoB: %s\nID: %d' % (self['get']('first'),self['get']('last'),self['get']('date')['get']('repr')(),self['get']('id')))
     def repr(self):
-        return 'Name: %s %s\nDoB: %s\nID: %d' % (self['get']('first'),self['get']('last'),self['get']('date')['get']('repr')(),self['get']('id'))
+        return '\nName: %s %s\nDoB: %s\nID: %d' % (self['get']('first'),self['get']('last'),self['get']('date')['get']('repr')(),self['get']('id'))
     def getFirst(self):
         return self['get']('first')
     def getLast(self):
@@ -142,18 +142,61 @@ def make_student_class():
         return Person['get']('repr')(self)+'\nLearning: %s\nAvg: %.01f\nSeniority: %s\n' % (self['get']('learning'),self['get']('avg'),self['get']('seniority'))
     return make_class(locals(),'Student',Person)
  
- 
+def make_faculty_class():
+    def __init__(self,first,last,date,id,teaching,salary,seniority):
+        Person['get']('__init__')(self,first,last,date,id)
+        self['set']('teaching',self['get']('setTeaching')(teaching))
+        self['set']('salary',self['get']('setSalary')(salary))
+        self['set']('seniority',self['get']('setSeniority')(seniority))
+    def getTeaching(self):
+        return self['get']('teaching')
+    def getSalary(self):
+        return self['get']('salary')
+    def getSeniority(self):
+        return self['get']('seniority')
+    def setSeniority(self,seniority):
+        if seniority>0:self['set']('seniority',seniority)
+        else: self['set']('seniority',0)
+        return self['get']('seniority')
+    def setTeaching(self,teaching):
+        if teaching: self['set']('teaching',teaching)
+        else: self['set']('teaching','undefined')
+        return self['get']('teaching')
+    def setSalary(self,salary):
+        if salary>0:self['set']('salary',salary)
+        else:self['set']('salary',0)
+        return self['get']('salary')
+    def str(self):
+        Person['get']('str')(self)
+        print("Teaching: %s" % self['get']('teaching'))
+        print("Salary: %.01f" % self['get']('salary'))
+        print("Seniority: %s" % self['get']('seniority'))
+    def repr(self):
+        return Person['get']('repr')(self)+'\nTeaching: %s\nSalary: %.01f\nSeniority: %s\n' % (self['get']('teaching'),self['get']('salary'),self['get']('seniority'))
+    return make_class(locals(),'Faculty',Person)
+
+def make_ta_class():
+    def __init__(self,first,last,date,id,learning,avg,seniority,teaching,salary):
+        Student['get']('__init__')(self,first,last,date,id,learning,avg,seniority)
+        Faculty['get']('__init__')(self,first,last,date,id,teaching,salary,seniority)
+
+    return make_class(locals(),'TA',Student,Faculty)
 def driver():
     d1 = MyDate['new'](5,10,1991)
     d1['get']('str')()
-    #p1= Person['new']('Anthony','Fleysher',d1,203192331)
+    p1= Person['new']('Anthony','Fleysher',d1,203192331)
     #p1['get']('str')()
+    print(p1['get']('repr')())
     s1= Student['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',98.0,3)
     #s1['get']('str')()
     print(s1['get']('repr')())
+    f1= Faculty['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',1000,3)
+    print(f1['get']('repr')())
 
     
 MyDate     = make_data_class()
 Person     = make_person_class()
 Student    = make_student_class()
+Faculty    = make_faculty_class()
+#TA         = make_ta_class()
 driver()
