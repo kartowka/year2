@@ -1,11 +1,17 @@
 ### Our custom OOP
-def make_class(attrs,class_name, base=None):
+def make_class(attrs,class_name, base=None):#*bases):
     """Return a new class (a dispatch dictionary) with given class attributes"""
     #print(attrs)
     # Getter: class attribute (looks in this class, then base)
     def get(name):
         if name in attrs: return attrs[name]
         elif base:        return base['get'](name)
+        # for base in bases:
+        #     print(base)
+        #     #base is dict, bases is tuple
+        #     if base not in attrs:
+        #         print(base)
+        #         return base['get'](name)
 
     # Setter: class attribute (always sets in this class)
     def set(name, value): attrs[name] = value
@@ -50,7 +56,7 @@ def make_data_class():
         self['set']('month',self['get']('setMonth')(month))
         self['set']('day',self['get']('setDay')(day))
     def str(self):
-        print('%02d.%02d.%d' % (self['get']('day'),self['get']('month'),self['get']('year')))
+        print(self['get']('repr')())
     def repr(self):
         return '%02d.%02d.%d' % (self['get']('day'),self['get']('month'),self['get']('year'))
     def getDay(self):
@@ -84,7 +90,7 @@ def make_person_class():
         self['set']('id',self['get']('setID')(id))
         self['set']('date',date)
     def str(self):
-        print('Name: %s %s\nDoB: %s\nID: %d' % (self['get']('first'),self['get']('last'),self['get']('date')['get']('repr')(),self['get']('id')))
+        print(self['get']('repr')())
     def repr(self):
         return '\nName: %s %s\nDoB: %s\nID: %d' % (self['get']('first'),self['get']('last'),self['get']('date')['get']('repr')(),self['get']('id'))
     def getFirst(self):
@@ -134,10 +140,7 @@ def make_student_class():
         else: self['set']('seniority',0)
         return self['get']('seniority')
     def str(self):
-        Person['get']('str')(self)
-        print("Learning: %s" % self['get']('learning'))
-        print("Avg: %.01f" % self['get']('avg'))
-        print("Seniority: %s" % self['get']('seniority'))
+        print(self['get']('repr')())
     def repr(self):
         return Person['get']('repr')(self)+'\nLearning: %s\nAvg: %.01f\nSeniority: %s\n' % (self['get']('learning'),self['get']('avg'),self['get']('seniority'))
     return make_class(locals(),'Student',Person)
@@ -167,10 +170,7 @@ def make_faculty_class():
         else:self['set']('salary',0)
         return self['get']('salary')
     def str(self):
-        Person['get']('str')(self)
-        print("Teaching: %s" % self['get']('teaching'))
-        print("Salary: %.01f" % self['get']('salary'))
-        print("Seniority: %s" % self['get']('seniority'))
+        print(self['get']('repr')())
     def repr(self):
         return Person['get']('repr')(self)+'\nTeaching: %s\nSalary: %.01f\nSeniority: %s\n' % (self['get']('teaching'),self['get']('salary'),self['get']('seniority'))
     return make_class(locals(),'Faculty',Person)
@@ -185,14 +185,14 @@ def driver():
     d1 = MyDate['new'](5,10,1991)
     d1['get']('str')()
     p1= Person['new']('Anthony','Fleysher',d1,203192331)
-    #p1['get']('str')()
-    print(p1['get']('repr')())
+    p1['get']('str')()
+    #print(p1['get']('repr')())
     s1= Student['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',98.0,3)
-    #s1['get']('str')()
-    print(s1['get']('repr')())
+    s1['get']('str')()
+    #print(s1['get']('repr')())
     f1= Faculty['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',1000,3)
-    print(f1['get']('repr')())
-
+    f1['get']('str')()
+    
     
 MyDate     = make_data_class()
 Person     = make_person_class()
