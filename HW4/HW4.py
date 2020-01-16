@@ -1,3 +1,7 @@
+# Name: Rona Nazarov, ID:
+# Name: Anthony Eitan Fleysher, ID: 203192331
+
+#EX1
 ### Our custom OOP
 def make_class(attrs,class_name, *bases):
     """Return a new class (a dispatch dictionary) with given class attributes"""
