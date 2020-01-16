@@ -8,7 +8,6 @@ def make_class(attrs,class_name, *bases):
     # Getter: class attribute (looks in this class, then base)
     def get(name):
         if name in attrs: return attrs[name]
-        #elif base:        return base['get'](name)
         for base in bases:
             if base['get'](name) != None:
                 return base['get'](name)
