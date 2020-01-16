@@ -144,6 +144,8 @@ def make_student_class():
         print(self['get']('getStr')())
     def getStr(self):
         return Person['get']('getStr')(self)+'\nLearning: %s\nAvg: %.01f\nSeniority: %s\n' % (self['get']('learning'),self['get']('avg'),self['get']('seniority'))
+    def uniqueFields(self):
+        return "Learning: %s\nAvg: %.01f\nSeniority: %s" % (self['get']('learning'),self['get']('avg'),self['get']('seniority'))
     def repr(self):
         return f"Student['new']({self['get']('first')},{self['get']('last')},{self['get']('id')},{self['get']('date')['get']('repr')()},{self['get']('learning')},{self['get']('avg')},{self['get']('seniority')})"
     return make_class(locals(),'Student',Person)
@@ -179,6 +181,8 @@ def make_faculty_class():
         return Person['get']('getStr')(self)+'\nTeaching: %s\nSalary: %.01f\nSeniority: %s\n' % (self['get']('teaching'),self['get']('salary'),self['get']('seniority'))
     def repr(self):
         return f"Faculty['new']({self['get']('first')},{self['get']('last')},{self['get']('id')},{self['get']('date')['get']('repr')()},{self['get']('teaching')},{self['get']('salary')},{self['get']('seniority')})"
+    def uniqueFields(self):
+        return 'Teaching: %s\nSalary: %.01f\n' % (self['get']('teaching'),self['get']('salary'))
     return make_class(locals(),'Faculty',Person)
 
 def make_ta_class():
@@ -187,7 +191,7 @@ def make_ta_class():
         Student['get']('__init__')(self,first,last,date,id,learning,avg,seniority)
         Faculty['get']('__init__')(self,first,last,date,id,teaching,salary,seniority)
     def getStr(self):
-        return Person['get']('repr')(self)+''
+        return Person['get']('getStr')(self)+"\n"+Student['get']('uniqueFields')(self)+"\n"+Faculty['get']('uniqueFields')(self)
     def str(self):
         print(self['get']('getStr')())
     return make_class(locals(),'TA',Student,Faculty)
@@ -205,7 +209,7 @@ def driver():
     #f1['get']('str')()
     print(f1['get']('repr')())
     t1 = TA['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',98.0,3,'Math',300)
-    #t1['get']('str')()
+    t1['get']('str')()
     
     
 MyDate     = make_data_class()
