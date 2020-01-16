@@ -1,18 +1,13 @@
 ### Our custom OOP
-def make_class(attrs,class_name, base=None):#*bases):
+def make_class(attrs,class_name, *bases):
     """Return a new class (a dispatch dictionary) with given class attributes"""
-    #print(attrs)
     # Getter: class attribute (looks in this class, then base)
     def get(name):
         if name in attrs: return attrs[name]
-        elif base:        return base['get'](name)
-        # for base in bases:
-        #     print(base)
-        #     #base is dict, bases is tuple
-        #     if base not in attrs:
-        #         print(base)
-        #         return base['get'](name)
-
+        #elif base:        return base['get'](name)
+        for base in bases:
+            if name not in attrs:
+                return base['get'](name)
     # Setter: class attribute (always sets in this class)
     def set(name, value): attrs[name] = value
 
@@ -178,8 +173,11 @@ def make_faculty_class():
 def make_ta_class():
     def __init__(self,first,last,date,id,learning,avg,seniority,teaching,salary):
         Student['get']('__init__')(self,first,last,date,id,learning,avg,seniority)
-        Faculty['get']('__init__')(self,first,last,date,id,teaching,salary,seniority)
-
+        #Faculty['get']('__init__')(self,first,last,date,id,teaching,salary,seniority)
+    def repr(self):
+        return Person['get']('repr')(self)
+    def str(self):
+        print(self['get']('repr')())
     return make_class(locals(),'TA',Student,Faculty)
 def driver():
     d1 = MyDate['new'](5,10,1991)
@@ -192,11 +190,13 @@ def driver():
     #print(s1['get']('repr')())
     f1= Faculty['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',1000,3)
     f1['get']('str')()
+    t1 = TA['new']('Anthony','Fleysher',d1,203192331,'Software Engineering',98.0,3,'Math',300)
+    t1['get']('str')()
     
     
 MyDate     = make_data_class()
 Person     = make_person_class()
 Student    = make_student_class()
 Faculty    = make_faculty_class()
-#TA         = make_ta_class()
+TA         = make_ta_class()
 driver()
