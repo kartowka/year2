@@ -137,6 +137,10 @@ def apply(operator_name, x, y):
 
 def mul_int_rlist(i,rl):
     """multiply int rlist on i,rl"""
+    print(type(i))
+    if type(i)!=int:
+        i=i[0]
+    print(type(i))
     args=rl
     for _ in range(0,i):
         args=extend_rlist(args,rl)       
@@ -163,10 +167,12 @@ def rational_to_rlist(r):
     return Rlist(r.numer/r.denom)
 def int_to_rational(i):
     return Rational(i,1)
+def int_to_rlist(i):
+    return Rlist(i)
 
 coercions = {('rat', 'rlist'): rational_to_rlist,
             ('int','rat'): int_to_rational,
-            ('int','rlist'):mul_rlist_int}
+            ('int','rlist'):int_to_rlist}
 
 def coerce_apply(operator_name, x, y):
     """Apply an operation ('add' or 'mul') to x and y."""
@@ -188,5 +194,6 @@ coerce_apply.implementations = {('add', 'rlist'): add_rlist,
                                 ('mul', 'rlist'): mul_rlist_int}
 
 s = Rlist(3, Rlist(4, Rlist(5)))
+x=int_to_rlist(4)
 
-print(Rational(3,4)+5)
+print(s*2)
