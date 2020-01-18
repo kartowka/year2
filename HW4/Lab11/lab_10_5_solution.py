@@ -1,5 +1,4 @@
-from fractions import gcd
-from math import atan2, sin, cos
+from math import atan2, sin, cos,gcd
 
 ####################
 # Rational numbers #
@@ -215,6 +214,7 @@ def div_complex_and_rational(z, r):
     return ComplexMA(z.magnitude / ( r.numer / r.denom), z.angle)
 
 def div_rational_and_complex(r, z):
+    from math import pi
     return ComplexMA(( r.numer / r.denom)/z.magnitude, 2*pi- z.angle)
 
 apply.implementations = {('mul', ('com', 'com')): mul_complex,
@@ -277,8 +277,8 @@ coerce_apply.implementations.update({('div', 'com'): div_complex,
 
 def driver():
     from math import pi
-    print (ComplexRI(1, 2) + ComplexMA(2, pi/2))#    ComplexRI(1.0000000000000002, 4.0)
-    print (ComplexRI(0, 1) * ComplexRI(0, 1)) #    ComplexMA(1.0, 3.141592653589793)
+    #print (ComplexRI(1, 2) + ComplexMA(2, pi/2))#    ComplexRI(1.0000000000000002, 4.0)
+    # print (ComplexRI(0, 1) * ComplexRI(0, 1)) #    ComplexMA(1.0, 3.141592653589793)
     print (ComplexRI(1, 2) - Rational(2, 3)) #ComplexRI(0.33333333333333337,2)
 
     
