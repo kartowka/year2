@@ -137,10 +137,8 @@ def apply(operator_name, x, y):
 
 def mul_int_rlist(i,rl):
     """multiply int rlist on i,rl"""
-    print(type(i))
     if type(i)!=int:
         i=i[0]
-    print(type(i))
     args=rl
     for _ in range(0,i):
         args=extend_rlist(args,rl)       
@@ -194,6 +192,3 @@ coerce_apply.implementations = {('add', 'rlist'): add_rlist,
                                 ('mul', 'rlist'): mul_rlist_int}
 
 s = Rlist(3, Rlist(4, Rlist(5)))
-x=int_to_rlist(4)
-
-print(s*2)
