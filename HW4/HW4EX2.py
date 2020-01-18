@@ -41,17 +41,7 @@ def filter_rlist(s, fn):
     return rest
 
 class Rational(object):
-    """A rational number represented as a numerator and denominator.
-
-    All rational numbers are represented in lowest terms.
-
-    >>> Rational(6, 4)
-    Rational(3, 2)
-    >>> add_rational(Rational(3, 14), Rational(2, 7))
-    Rational(1, 2)
-    >>> mul_rational(Rational(7, 10), Rational(2, 7))
-    Rational(1, 5)
-    """
+    """A rational number represented as a numerator and denominator."""
 
     def __init__(self, numer, denom):
         g = gcd(numer, denom)
@@ -103,13 +93,7 @@ def mul_int(x,y):
 # ------------------------------------------------------------------
 
 def add(z1, z2):
-    """Add z1 and z2, which may be complex or rational.
-
-    >>> add(ComplexRI(1.5, 0), Rational(3, 2))
-    ComplexRI(3.0, 0)
-    >>> add(Rational(5, 3), Rational(1, 2))
-    Rational(13, 6)
-    """
+    """Add z1 and z2, which may be complex or rational."""
     types = (type_tag(z1), type_tag(z2))
     return add.implementations[types](z1, z2)
 
@@ -177,37 +161,32 @@ apply.implementations.update({('add', tags):fn for (tags, fn) in adders})
 
 def rational_to_rlist(r):
     return Rlist(r.numer/r.denom)
+def int_to_rational(i):
+    return Rational(i,1)
 
-coercions = {('rat', 'rlist'): rational_to_rlist,}
+coercions = {('rat', 'rlist'): rational_to_rlist,
+            ('int','rat'): int_to_rational,
+            ('int','rlist'):mul_rlist_int}
 
 def coerce_apply(operator_name, x, y):
-    """Apply an operation ('add' or 'mul') to x and y.
-
-    >>> coerce_apply('add', ComplexRI(1.5, 0), Rational(3, 2))
-    ComplexRI(3.0, 0)
-    >>> coerce_apply('mul', Rational(1, 2), ComplexMA(10, 1))
-    ComplexMA(5.0, 1.0)
-    """
-    # tx, ty = type_tag(x), type_tag(y)
-    # if tx != ty:
-    #     if (tx, ty) in coercions:
-    #         tx, x = ty, coercions[(tx, ty)](x)
-    #     elif (ty, tx) in coercions:
-    #         ty, y = tx, coercions[(ty, tx)](y)
-    #     else:
-    #         return 'No coercion possible.'
-    # assert tx == ty
-    tags = (type_tag(x), type_tag(y))
-    key = (operator_name, tags)
+    """Apply an operation ('add' or 'mul') to x and y."""
+    tx, ty = type_tag(x), type_tag(y)
+    if tx != ty:
+        if (tx, ty) in coercions:
+            tx, x = ty, coercions[(tx, ty)](x)
+        elif (ty, tx) in coercions:
+            ty, y = tx, coercions[(ty, tx)](y)
+        else:
+            return 'No coercion possible.'
+    assert tx == ty
+    key = (operator_name, tx)
     return coerce_apply.implementations[key](x, y)
 
-coerce_apply.implementations = {('mul', ('int', 'rlist')): mul_int_rlist,
-                                ('mul', ('rat', 'rat')): mul_rational,
-                                ('mul', ('int', 'int')): mul_int,
-                                ('mul', ('int', 'rat')): mul_int_rational}
-
-### add 'add' implementations from add.implementations to apply.implementations
-coerce_adders = add.implementations.items()
-coerce_apply.implementations.update({('add', tags):fn for (tags, fn) in coerce_adders})
+coerce_apply.implementations = {('add', 'rlist'): add_rlist,
+                                ('add', 'rat'): add_rational,
+                                ('mul', 'rat'): mul_rational,
+                                ('mul', 'rlist'): mul_rlist_int}
 
 s = Rlist(3, Rlist(4, Rlist(5)))
+
+print(Rational(3,4)+5)
