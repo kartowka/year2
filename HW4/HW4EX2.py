@@ -192,3 +192,13 @@ coerce_apply.implementations = {('add', 'rlist'): add_rlist,
                                 ('mul', 'rlist'): mul_rlist_int}
 
 s = Rlist(3, Rlist(4, Rlist(5)))
+
+print(s+Rational(3,4))
+print(s+s)
+print(Rational(3,4)+Rational(3,2))
+print(4+4)
+print(Rational(3,4)+6)
+print(s*3)
+print(Rational(3,4)*Rational(5,3))
+print(6*6)
+print(Rational(4,5)*7)
